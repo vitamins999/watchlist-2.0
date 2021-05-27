@@ -8,6 +8,7 @@ module.exports = {
       fontFamily: {
         bodyMain: ['Overpass'],
         headingMain: ['Permanent Marker'],
+        buttonText: ['Montserrat'],
       },
       spacing: {
         84: '21rem',
