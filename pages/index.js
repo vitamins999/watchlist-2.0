@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/router';
 
 import Layout from '../components/layout';
 
 const HomePage = () => {
   const [modalOpen, setModalOpen] = useState(false);
+
+  const router = useRouter();
 
   const {
     register,
@@ -13,9 +16,9 @@ const HomePage = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
-    setModalOpen(false);
+  const onSubmit = ({ linkURL, region }) => {
+    const listName = linkURL.split('.com/lists/')[1];
+    router.push(`/${region}/${listName}`);
   };
 
   const handleModalOpen = () => {
@@ -93,19 +96,19 @@ const HomePage = () => {
                 </p>
                 <div className='flex'>
                   <select
-                    className='mr-5 py-2 px-5 text-sm rounded-md font-bodyMain'
+                    className='mr-5 py-2 px-5 text-sm rounded-md font-bodyMain shadow-inner focus:outline-none'
                     required
                     {...register('region')}
                   >
                     <option value='' hidden>
                       Select Region
                     </option>
-                    <option value='GB'>GB</option>
-                    <option value='US'>US</option>
+                    <option value='gb'>GB</option>
+                    <option value='us'>US</option>
                   </select>
                   <input
                     type='text'
-                    className='py-2 px-5 rounded-md w-144 font-bodyMain text-sm'
+                    className='py-2 px-5 rounded-md w-144 font-bodyMain text-sm shadow-inner focus:outline-none'
                     placeholder='e.g. https://icheckmovies.com/lists/imdbs+top+250/'
                     {...register('linkURL')}
                     required
