@@ -43,7 +43,14 @@ const ResultsPage = () => {
   };
 
   const getListData = async () => {
-    const url = 'https://icheckmovies.com/lists/imdbs+top+250/';
+    let url = '';
+
+    if (list.length > 2) {
+      url = `https://icheckmovies.com/lists/${list[1]}/${list[2]}/`;
+    } else {
+      url = `https://icheckmovies.com/lists/${list[1]}/`;
+    }
+
     const html = await getMovieList(url);
     const movieList = populateMovieList(html);
 
