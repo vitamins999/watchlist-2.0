@@ -68,14 +68,14 @@ const ResultsPage = () => {
 
   if (loading) {
     return (
-      <Layout title={title}>
+      <Layout title={title} showHeader>
         <h1>Loading...</h1>
       </Layout>
     );
   }
 
   return (
-    <Layout title={title}>
+    <Layout title={title} showHeader>
       <h1>{allMoviesListTitle}</h1>
       <ul>
         {allMoviesList

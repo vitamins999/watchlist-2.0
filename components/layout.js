@@ -1,6 +1,7 @@
 import Head from 'next/head';
+import Header from './Header';
 
-const Layout = ({ children, title }) => {
+const Layout = ({ children, title, showHeader }) => {
   return (
     <>
       <Head>
@@ -18,6 +19,7 @@ const Layout = ({ children, title }) => {
           href='/icons/favicon-16x16.png'
         />
       </Head>
+      {showHeader && <Header />}
       <div>{children}</div>
     </>
   );
