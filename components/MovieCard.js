@@ -5,7 +5,9 @@ const MovieCard = ({ movie }) => {
     <motion.a
       whileHover={{ scale: 1.05 }}
       transition={{ duration: 0.15 }}
-      href='#'
+      href={`https://www.imdb.com/title/${movie.imdbID}`}
+      rel='noreferrer noopener'
+      target='_blank'
     >
       <div className='bg-gray-800 text-gray-50 font-bodyMain rounded-lg w-96 h-72 flex overflow-hidden shadow-lg'>
         <img
