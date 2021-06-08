@@ -14,6 +14,7 @@ const testData = [
     title: "Schindler's List",
     year: '1993',
     imagePath: '/sF1U4EUQS8YHUYjNl3pMGNIQyr0.jpg',
+    imdbID: 'tt0108052',
     providerDetails: [
       {
         providerName: 'Netflix',
@@ -27,6 +28,7 @@ const testData = [
     title: 'Fight Club',
     year: '1999',
     imagePath: '/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg',
+    imdbID: 'tt0137523',
     providerDetails: [
       {
         providerName: 'Amazon Prime Video',
@@ -40,6 +42,7 @@ const testData = [
     title: 'Inception',
     year: '2010',
     imagePath: '/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg',
+    imdbID: 'tt1375666',
     providerDetails: [
       {
         providerName: 'Amazon Prime Video',
@@ -53,6 +56,7 @@ const testData = [
     title: 'Inception',
     year: '2010',
     imagePath: '/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg',
+    imdbID: 'tt1375666',
     providerDetails: [
       {
         providerName: 'Amazon Prime Video',
@@ -66,6 +70,7 @@ const testData = [
     title: 'Here Is A Really Really Long Title: Episode VII',
     year: '2010',
     imagePath: '/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg',
+    imdbID: 'tt1375666',
     providerDetails: [
       {
         providerName: 'Amazon Prime Video',
@@ -151,14 +156,15 @@ const ResultsPage = () => {
   // }
 
   return (
-    <Layout
-      title={title}
-      showHeader
-      listName={allMoviesListTitle}
-      region={'GB'}
-    >
-      <main className='h-screen bg-gray-50 px-20 py-24'>
-        <ul className='py-5 grid grid-cols-4 gap-20'>
+    <Layout title={title} showHeader>
+      <main className='h-screen bg-gray-50 px-20 mb-32'>
+        <h1 className='text-gray-900 font-bodyMain text-5xl pt-20 pb-5 font-semibold tracking-wide'>
+          {allMoviesListTitle}
+        </h1>
+        <h2 className='text-gray-700 font-bodyMain text-lg pb-10 italic'>
+          Region: {list[0].toUpperCase()}
+        </h2>
+        <ul className='pb-5 grid grid-cols-4 gap-20'>
           {testData
             .sort((a, b) => {
               return a.listNumber - b.listNumber;
