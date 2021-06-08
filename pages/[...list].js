@@ -69,23 +69,27 @@ const ResultsPage = () => {
   if (loading) {
     return (
       <Layout title={title} showHeader>
-        <h1>Loading...</h1>
+        <main className='h-screen bg-gradient-to-r from-yellow-400 to-yellow-300 px-20 py-5'>
+          <h1>Loading...</h1>
+        </main>
       </Layout>
     );
   }
 
   return (
     <Layout title={title} showHeader>
-      <h1>{allMoviesListTitle}</h1>
-      <ul>
-        {allMoviesList
-          .sort((a, b) => {
-            return a.listNumber - b.listNumber;
-          })
-          .map((movie) => (
-            <li key={parseInt(movie.id)}>{movie.title}</li>
-          ))}
-      </ul>
+      <main className='h-screen bg-gradient-to-r from-yellow-400 to-yellow-300 px-20 py-5'>
+        <h1>{allMoviesListTitle}</h1>
+        <ul>
+          {allMoviesList
+            .sort((a, b) => {
+              return a.listNumber - b.listNumber;
+            })
+            .map((movie) => (
+              <li key={parseInt(movie.id)}>{movie.title}</li>
+            ))}
+        </ul>
+      </main>
     </Layout>
   );
 };
