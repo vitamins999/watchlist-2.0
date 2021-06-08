@@ -2,14 +2,84 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
 import Layout from '../components/layout';
+import MovieCard from '../components/MovieCard';
 
 import { getMovieList, populateMovieList } from '../api/scraping';
 import { getMovieDetails, getProviderDetails } from '../api/streamingDetails';
 
+const testData = [
+  {
+    listNumber: 5,
+    id: '424',
+    title: "Schindler's List",
+    year: '1993',
+    imagePath: '/sF1U4EUQS8YHUYjNl3pMGNIQyr0.jpg',
+    providerDetails: [
+      {
+        providerName: 'Netflix',
+        providerLogoPath: '/9A1JSVmSxsyaBK4SUFsYVqbAYfW.jpg',
+      },
+    ],
+  },
+  {
+    listNumber: 10,
+    id: '550',
+    title: 'Fight Club',
+    year: '1999',
+    imagePath: '/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg',
+    providerDetails: [
+      {
+        providerName: 'Amazon Prime Video',
+        providerLogoPath: '/68MNrwlkpF7WnmNPXLah69CR5cb.jpg',
+      },
+    ],
+  },
+  {
+    listNumber: 12,
+    id: '27205',
+    title: 'Inception',
+    year: '2010',
+    imagePath: '/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg',
+    providerDetails: [
+      {
+        providerName: 'Amazon Prime Video',
+        providerLogoPath: '/68MNrwlkpF7WnmNPXLah69CR5cb.jpg',
+      },
+    ],
+  },
+  {
+    listNumber: 12,
+    id: '27205',
+    title: 'Inception',
+    year: '2010',
+    imagePath: '/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg',
+    providerDetails: [
+      {
+        providerName: 'Amazon Prime Video',
+        providerLogoPath: '/68MNrwlkpF7WnmNPXLah69CR5cb.jpg',
+      },
+    ],
+  },
+  {
+    listNumber: 12,
+    id: '27205',
+    title: 'Here Is A Really Really Long Title: Episode VII',
+    year: '2010',
+    imagePath: '/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg',
+    providerDetails: [
+      {
+        providerName: 'Amazon Prime Video',
+        providerLogoPath: '/68MNrwlkpF7WnmNPXLah69CR5cb.jpg',
+      },
+    ],
+  },
+];
+
 const ResultsPage = () => {
   const [allMoviesList, setAllMoviesList] = useState([]);
-  const [allMoviesListTitle, setAllMoviesListTitle] = useState('');
-  const [loading, setLoading] = useState(true);
+  const [allMoviesListTitle, setAllMoviesListTitle] =
+    useState("IMDb's Top 250");
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
@@ -59,34 +129,50 @@ const ResultsPage = () => {
     setLoading(false);
   };
 
-  useEffect(() => {
-    allMoviesList.length = 0;
-    getListData();
-  }, []);
+  // useEffect(() => {
+  //   getListData();
+  // }, []);
 
   const title = 'Search Results';
 
-  if (loading) {
-    return (
-      <Layout title={title} showHeader>
-        <main className='h-screen bg-gradient-to-r from-yellow-400 to-yellow-300 px-20 py-5'>
-          <h1>Loading...</h1>
-        </main>
-      </Layout>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <Layout
+  //       title={title}
+  //       showHeader
+  //       listName='Getting List Info...'
+  //       region={list[0]}
+  //     >
+  //       <main className='h-screen bg-gray-50 px-20 py-24'>
+  //         <h1>Loading...</h1>
+  //       </main>
+  //     </Layout>
+  //   );
+  // }
 
   return (
-    <Layout title={title} showHeader>
-      <main className='h-screen bg-gradient-to-r from-yellow-400 to-yellow-300 px-20 py-5'>
-        <h1>{allMoviesListTitle}</h1>
-        <ul>
-          {allMoviesList
+    <Layout
+      title={title}
+      showHeader
+      listName={allMoviesListTitle}
+      region={'GB'}
+    >
+      <main className='h-screen bg-gray-50 px-20 py-24'>
+        <ul className='py-5 grid grid-cols-4 gap-20'>
+          {testData
             .sort((a, b) => {
               return a.listNumber - b.listNumber;
             })
             .map((movie) => (
-              <li key={parseInt(movie.id)}>{movie.title}</li>
+              <li
+                key={parseInt(movie.id)}
+                className='flex flex-col items-center'
+              >
+                <h2 className='text-gray-900 py-5 font-bodyMain'>
+                  {movie.listNumber}
+                </h2>
+                <MovieCard movie={movie} />
+              </li>
             ))}
         </ul>
       </main>

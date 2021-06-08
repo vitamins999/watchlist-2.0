@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import Header from './Header';
 
-const Layout = ({ children, title, showHeader }) => {
+const Layout = ({ children, title, showHeader, listName, region }) => {
   return (
     <>
       <Head>
@@ -19,7 +19,7 @@ const Layout = ({ children, title, showHeader }) => {
           href='/icons/favicon-16x16.png'
         />
       </Head>
-      {showHeader && <Header />}
+      {showHeader && <Header listName={listName} region={region} />}
       <div>{children}</div>
     </>
   );
