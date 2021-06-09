@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import { v4 as uuidv4 } from 'uuid';
 
 import Layout from '../components/layout';
 import MovieCard from '../components/MovieCard';
@@ -85,6 +86,7 @@ const ResultsPage = () => {
   const [allMoviesListTitle, setAllMoviesListTitle] =
     useState("IMDb's Top 250");
   const [loading, setLoading] = useState(false);
+  const [sortBy, setSortBy] = useState('number-asc');
 
   const router = useRouter();
 
@@ -158,25 +160,61 @@ const ResultsPage = () => {
   return (
     <Layout title={title} showHeader showFooter>
       <main className='h-screen bg-gray-50 px-72 mb-32'>
+        <div className='px-8 flex items-center justify-between'>
+          <div>
+            <h1 className='text-gray-900 font-bodyMain text-3xl pt-20 font-semibold tracking-wide'>
+              {allMoviesListTitle}
+            </h1>
+            <h2 className='text-gray-700 font-bodyMain text-sm pb-10 italic'>
+              Region: GB
+            </h2>
+          </div>
+          <div className='flex justify-between items-center'>
+            <select
+              onChange={(e) => setSortBy(e.target.value)}
+              defaultValue='number-asc'
+              className='px-5 py-2 rounded-md shadow-inner font-bodyMain text-sm focus:outline-none'
+            >
+              <option value='number-asc'>List Number ASC</option>
+              <option value='number-desc'>List Number DESC</option>
+              <option value='title-asc'>Title ASC</option>
+              <option value='title-desc'>Title DESC</option>
+            </select>
+          </div>
+        </div>
         <div className='px-8'>
-          <h1 className='text-gray-900 font-bodyMain text-3xl pt-20 font-semibold tracking-wide'>
-            {allMoviesListTitle}
-          </h1>
-          <h2 className='text-gray-700 font-bodyMain text-sm pb-10 italic'>
-            Region: GB
-          </h2>
-          <div className='w-full border-t bg-gray-800'></div>
+          <div className='w-full border-t bg-gray-800 px-8'></div>
         </div>
         <ul className='pb-5 grid grid-cols-3'>
           {testData
             .sort((a, b) => {
-              return a.listNumber - b.listNumber;
+              if (sortBy === 'number-asc') {
+                return a.listNumber - b.listNumber;
+              }
+              if (sortBy === 'number-desc') {
+                return b.listNumber - a.listNumber;
+              }
+              if (sortBy === 'title-asc') {
+                if (a.title < b.title) {
+                  return -1;
+                }
+                if (a.title > b.title) {
+                  return 1;
+                }
+                return 0;
+              }
+              if (sortBy === 'title-desc') {
+                if (a.title > b.title) {
+                  return -1;
+                }
+                if (a.title < b.title) {
+                  return 1;
+                }
+                return 0;
+              }
             })
             .map((movie) => (
-              <li
-                key={parseInt(movie.id)}
-                className='flex flex-col items-center pt-10'
-              >
+              <li key={uuidv4()} className='flex flex-col items-center pt-10'>
                 <h2 className='text-gray-900 py-5 font-bodyMain'>
                   {movie.listNumber}
                 </h2>
