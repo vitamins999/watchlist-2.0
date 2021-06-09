@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@tailwindcss/forms": "^0.3.3",
     "axios": "^0.21.1",
     "cheerio": "^1.0.0-rc.9",
     "framer-motion": "^4.1.17",
