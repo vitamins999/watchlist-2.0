@@ -156,9 +156,9 @@ const ResultsPage = () => {
   // }
 
   return (
-    <Layout title={title} showHeader>
+    <Layout title={title} showHeader showFooter>
       <main className='h-screen bg-gray-50 px-72 mb-32'>
-        <div className='px-8 mb-10'>
+        <div className='px-8'>
           <h1 className='text-gray-900 font-bodyMain text-3xl pt-20 font-semibold tracking-wide'>
             {allMoviesListTitle}
           </h1>
@@ -175,7 +175,7 @@ const ResultsPage = () => {
             .map((movie) => (
               <li
                 key={parseInt(movie.id)}
-                className='flex flex-col items-center'
+                className='flex flex-col items-center pt-10'
               >
                 <h2 className='text-gray-900 py-5 font-bodyMain'>
                   {movie.listNumber}
