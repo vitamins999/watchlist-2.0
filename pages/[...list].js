@@ -157,14 +157,17 @@ const ResultsPage = () => {
 
   return (
     <Layout title={title} showHeader>
-      <main className='h-screen bg-gray-50 px-20 mb-32'>
-        <h1 className='text-gray-900 font-bodyMain text-5xl pt-20 pb-5 font-semibold tracking-wide'>
-          {allMoviesListTitle}
-        </h1>
-        <h2 className='text-gray-700 font-bodyMain text-lg pb-10 italic'>
-          Region: {list[0].toUpperCase()}
-        </h2>
-        <ul className='pb-5 grid grid-cols-4 gap-20'>
+      <main className='h-screen bg-gray-50 px-72 mb-32'>
+        <div className='px-8 mb-10'>
+          <h1 className='text-gray-900 font-bodyMain text-3xl pt-20 font-semibold tracking-wide'>
+            {allMoviesListTitle}
+          </h1>
+          <h2 className='text-gray-700 font-bodyMain text-sm pb-10 italic'>
+            Region: GB
+          </h2>
+          <div className='w-full border-t bg-gray-800'></div>
+        </div>
+        <ul className='pb-5 grid grid-cols-3'>
           {testData
             .sort((a, b) => {
               return a.listNumber - b.listNumber;

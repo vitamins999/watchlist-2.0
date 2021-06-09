@@ -1,11 +1,13 @@
+import Image from 'next/image';
 import Link from 'next/link';
 
 const Header = ({ listName, region }) => {
   return (
-    <header className='shadow-sm flex justify-between items-center w-full py-5 px-20 bg-gradient-to-r from-yellow-400 to-yellow-300'>
+    <header className='shadow-sm flex justify-between items-center w-full py-5 px-80 bg-gray-200'>
       <Link href='/'>
-        <a>
-          <h1 className='text-3xl font-headingMain text-red-700 cursor-pointer'>
+        <a className='flex'>
+          <Image src='/icons/icon.webp' width={36} height={32} />
+          <h1 className='text-3xl font-headingMain text-red-700 cursor-pointer ml-3'>
             Watchlist
           </h1>
         </a>
