@@ -182,44 +182,56 @@ const ResultsPage = () => {
           <div className='w-full border-t bg-gray-800 px-8'></div>
         </div>
         <ul className='pb-5 grid grid-cols-3'>
-          {testData
-            .filter((movie) => {
-              return movie.providerDetails.length > 0;
-            })
-            .sort((a, b) => {
-              if (sortBy === 'number-asc') {
-                return a.listNumber - b.listNumber;
-              }
-              if (sortBy === 'number-desc') {
-                return b.listNumber - a.listNumber;
-              }
-              if (sortBy === 'title-asc') {
-                if (a.title < b.title) {
-                  return -1;
+          {testData.filter((movie) => {
+            return movie.providerDetails.length > 0;
+          }).length > 0 ? (
+            testData
+              .filter((movie) => {
+                return movie.providerDetails.length > 0;
+              })
+              .sort((a, b) => {
+                if (sortBy === 'number-asc') {
+                  return a.listNumber - b.listNumber;
                 }
-                if (a.title > b.title) {
-                  return 1;
+                if (sortBy === 'number-desc') {
+                  return b.listNumber - a.listNumber;
                 }
-                return 0;
-              }
-              if (sortBy === 'title-desc') {
-                if (a.title > b.title) {
-                  return -1;
+                if (sortBy === 'title-asc') {
+                  if (a.title < b.title) {
+                    return -1;
+                  }
+                  if (a.title > b.title) {
+                    return 1;
+                  }
+                  return 0;
                 }
-                if (a.title < b.title) {
-                  return 1;
+                if (sortBy === 'title-desc') {
+                  if (a.title > b.title) {
+                    return -1;
+                  }
+                  if (a.title < b.title) {
+                    return 1;
+                  }
+                  return 0;
                 }
-                return 0;
-              }
-            })
-            .map((movie) => (
-              <li key={uuidv4()} className='flex flex-col items-center pt-10'>
-                <h2 className='text-gray-900 py-5 font-bodyMain'>
-                  {movie.listNumber}
-                </h2>
-                <MovieCard movie={movie} />
-              </li>
-            ))}
+              })
+              .map((movie) => (
+                <li key={uuidv4()} className='flex flex-col items-center pt-10'>
+                  <h2 className='text-gray-900 py-5 font-bodyMain'>
+                    {movie.listNumber}
+                  </h2>
+                  <MovieCard movie={movie} />
+                </li>
+              ))
+          ) : (
+            <div className='text-center col-span-full mt-20 text-xl font-bodyMain text-gray-800'>
+              <h1>
+                Sorry! It appears that list has no movies available for
+                streaming in your selected region.
+              </h1>
+              <h2 className='mt-5'>How about trying another list?</h2>
+            </div>
+          )}
         </ul>
       </main>
     </Layout>
