@@ -39,7 +39,7 @@ export const getMovieDetails = async (movieTitle, year, number) => {
   const { data } = await axios.get(searchUrl, config);
 
   let movieData = {
-    listNumber: number,
+    listNumber: number + 1,
     id: data.results[0].id.toString(),
     title: data.results[0].title,
     year,
@@ -49,14 +49,14 @@ export const getMovieDetails = async (movieTitle, year, number) => {
   return movieData;
 };
 
-export const getProviderDetails = async (id) => {
+export const getProviderDetails = async (id, region) => {
   const providerUrl = `https://api.themoviedb.org/3/movie/${id}/watch/providers`;
 
   const { data: providerData } = await axios.get(providerUrl, config);
 
   let providerDetails = [];
 
-  providerData.results.GB?.flatrate?.forEach((provider) => {
+  providerData.results?.[region]?.flatrate?.forEach((provider) => {
     if (provider.provider_id === 8) {
       providerDetails.push({
         providerName: 'Netflix',

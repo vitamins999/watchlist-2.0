@@ -79,9 +79,9 @@ const testData = [
 
 const ResultsPage = () => {
   const [allMoviesList, setAllMoviesList] = useState([]);
-  const [allMoviesListTitle, setAllMoviesListTitle] =
-    useState("IMDb's Top 250");
-  const [loading, setLoading] = useState(false);
+  const [allMoviesListTitle, setAllMoviesListTitle] = useState('');
+  const [listRegion, setListRegion] = useState('');
+  const [loading, setLoading] = useState(true);
   const [error404, setError404] = useState(false);
   const [sortBy, setSortBy] = useState('number-asc');
 
@@ -92,6 +92,9 @@ const ResultsPage = () => {
   const getAllMoviesProviderData = async (listData) => {
     setAllMoviesListTitle(listData.listTitle);
 
+    const region = list[0].toUpperCase();
+    setListRegion(region);
+
     await listData.list.forEach(async (movie, index) => {
       const movieDetails = await getMovieDetails(
         movie.title,
@@ -100,7 +103,10 @@ const ResultsPage = () => {
       );
 
       try {
-        const providerDetails = await getProviderDetails(movieDetails.id);
+        const providerDetails = await getProviderDetails(
+          movieDetails.id,
+          region
+        );
 
         setAllMoviesList((prevData) => [
           ...prevData,
@@ -136,9 +142,13 @@ const ResultsPage = () => {
     }
   };
 
-  // useEffect(() => {
-  //   getListData();
-  // }, []);
+  useEffect(() => {
+    if (!router.isReady) {
+      return;
+    }
+    allMoviesList.length = 0;
+    getListData();
+  }, [router.isReady]);
 
   const title = 'Search Results';
 
@@ -214,14 +224,14 @@ const ResultsPage = () => {
 
   return (
     <Layout title={title} showHeader showFooter>
-      <main className='h-screen bg-gray-50 px-72 mb-32'>
+      <main className=' bg-gray-50 px-72 mb-32'>
         <div className='px-8 flex items-center justify-between'>
           <div>
             <h1 className='text-gray-900 font-bodyMain text-3xl pt-20 font-semibold tracking-wide'>
               {allMoviesListTitle}
             </h1>
             <h2 className='text-gray-700 font-bodyMain text-sm pb-10 italic'>
-              Region: GB
+              Region: {listRegion}
             </h2>
           </div>
           <div className='flex justify-between items-center'>
@@ -241,10 +251,10 @@ const ResultsPage = () => {
           <div className='w-full border-t bg-gray-800 px-8'></div>
         </div>
         <ul className='pb-5 grid grid-cols-3'>
-          {testData.filter((movie) => {
+          {allMoviesList.filter((movie) => {
             return movie.providerDetails.length > 0;
           }).length > 0 ? (
-            testData
+            allMoviesList
               .filter((movie) => {
                 return movie.providerDetails.length > 0;
               })
