@@ -59,12 +59,7 @@ const testData = [
     year: '2010',
     imagePath: '/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg',
     imdbID: 'tt1375666',
-    providerDetails: [
-      {
-        providerName: 'Amazon Prime Video',
-        providerLogoPath: '/68MNrwlkpF7WnmNPXLah69CR5cb.jpg',
-      },
-    ],
+    providerDetails: [],
   },
   {
     listNumber: 12,
@@ -86,7 +81,7 @@ const ResultsPage = () => {
   const [allMoviesList, setAllMoviesList] = useState([]);
   const [allMoviesListTitle, setAllMoviesListTitle] =
     useState("IMDb's Top 250");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [sortBy, setSortBy] = useState('number-asc');
 
   const router = useRouter();
@@ -188,6 +183,9 @@ const ResultsPage = () => {
         </div>
         <ul className='pb-5 grid grid-cols-3'>
           {testData
+            .filter((movie) => {
+              return movie.providerDetails.length > 0;
+            })
             .sort((a, b) => {
               if (sortBy === 'number-asc') {
                 return a.listNumber - b.listNumber;
