@@ -82,6 +82,7 @@ const ResultsPage = () => {
   const [allMoviesListTitle, setAllMoviesListTitle] =
     useState("IMDb's Top 250");
   const [loading, setLoading] = useState(false);
+  const [error404, setError404] = useState(false);
   const [sortBy, setSortBy] = useState('number-asc');
 
   const router = useRouter();
@@ -124,12 +125,15 @@ const ResultsPage = () => {
       url = `https://icheckmovies.com/lists/${list[1]}/`;
     }
 
-    const html = await getMovieList(url);
-    const movieList = populateMovieList(html);
+    try {
+      const html = await getMovieList(url);
+      const movieList = populateMovieList(html);
+      await getAllMoviesProviderData(movieList);
 
-    await getAllMoviesProviderData(movieList);
-
-    setLoading(false);
+      setLoading(false);
+    } catch (error) {
+      setError404(true);
+    }
   };
 
   // useEffect(() => {
@@ -138,9 +142,64 @@ const ResultsPage = () => {
 
   const title = 'Search Results';
 
+  if (error404) {
+    return (
+      <Layout title={title} showHeader showFooter>
+        <main className='h-screen bg-gray-50 px-72 mb-32'>
+          <div className='px-8 py-72 flex flex-col items-center justify-center'>
+            <h1 className='font-bodyMain text-7xl pb-20'>404 ERROR</h1>
+            <h1 className='font-bodyMain text-lg text-gray-800'>
+              Whoops! Seems something went wrong with either the{' '}
+              <a
+                href='https://www.icheckmovies.com/'
+                rel='noreferrer noopener'
+                target='_blank'
+                className='text-blue-700 hover:text-blue-900 transition duration-150'
+              >
+                icheckmovies.com
+              </a>{' '}
+              URL or{' '}
+              <a
+                href='https://www.themoviedb.org/'
+                rel='noreferrer noopener'
+                target='_blank'
+                className='text-blue-700 hover:text-blue-900 transition duration-150'
+              >
+                themoviedb.org
+              </a>
+              .
+            </h1>
+            <h2 className='font-bodyMain text-lg text-gray-800'>
+              Check the URL is correct and the full address and try again. If
+              the problem persists, check{' '}
+              <a
+                href='https://www.icheckmovies.com/'
+                rel='noreferrer noopener'
+                target='_blank'
+                className='text-blue-700 hover:text-blue-900 transition duration-150'
+              >
+                icheckmovies.com
+              </a>{' '}
+              or{' '}
+              <a
+                href='https://www.themoviedb.org/'
+                rel='noreferrer noopener'
+                target='_blank'
+                className='text-blue-700 hover:text-blue-900 transition duration-150'
+              >
+                themoviedb.org
+              </a>{' '}
+              isn't down.
+            </h2>
+          </div>
+        </main>
+      </Layout>
+    );
+  }
+
   if (loading) {
     return (
-      <Layout title={title} showHeader>
+      <Layout title={title} showHeader showFooter>
         <main className='h-screen bg-gray-50 px-72 mb-32'>
           <div className='px-8 py-72 flex flex-col items-center justify-center'>
             <Loader />
