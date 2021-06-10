@@ -103,7 +103,17 @@ const HomePage = () => {
                     <option value='' hidden>
                       Select Region
                     </option>
+                    <option value='au'>AU</option>
+                    <option value='ca'>CA</option>
+                    <option value='de'>DE</option>
+                    <option value='es'>ES</option>
+                    <option value='fi'>FI</option>
+                    <option value='fr'>FR</option>
                     <option value='gb'>GB</option>
+                    <option value='ie'>IE</option>
+                    <option value='it'>IT</option>
+                    <option value='nl'>NL</option>
+                    <option value='nz'>NZ</option>
                     <option value='us'>US</option>
                   </select>
                   <input
