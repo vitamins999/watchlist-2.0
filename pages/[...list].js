@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import Layout from '../components/layout';
 import MovieCard from '../components/MovieCard';
+import Loader from '../components/Loader';
 
 import { getMovieList, populateMovieList } from '../api/scraping';
 import { getMovieDetails, getProviderDetails } from '../api/streamingDetails';
@@ -85,7 +86,7 @@ const ResultsPage = () => {
   const [allMoviesList, setAllMoviesList] = useState([]);
   const [allMoviesListTitle, setAllMoviesListTitle] =
     useState("IMDb's Top 250");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [sortBy, setSortBy] = useState('number-asc');
 
   const router = useRouter();
@@ -142,20 +143,20 @@ const ResultsPage = () => {
 
   const title = 'Search Results';
 
-  // if (loading) {
-  //   return (
-  //     <Layout
-  //       title={title}
-  //       showHeader
-  //       listName='Getting List Info...'
-  //       region={list[0]}
-  //     >
-  //       <main className='h-screen bg-gray-50 px-20 py-24'>
-  //         <h1>Loading...</h1>
-  //       </main>
-  //     </Layout>
-  //   );
-  // }
+  if (loading) {
+    return (
+      <Layout title={title} showHeader>
+        <main className='h-screen bg-gray-50 px-72 mb-32'>
+          <div className='px-8 py-72 flex flex-col items-center justify-center'>
+            <Loader />
+            <h1 className='font-bodyMain text-lg text-gray-800'>
+              Getting movie info...
+            </h1>
+          </div>
+        </main>
+      </Layout>
+    );
+  }
 
   return (
     <Layout title={title} showHeader showFooter>
