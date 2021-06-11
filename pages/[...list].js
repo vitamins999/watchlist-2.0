@@ -107,14 +107,15 @@ const ResultsPage = () => {
           movieDetails.id,
           region
         );
-
-        setAllMoviesList((prevData) => [
-          ...prevData,
-          {
-            ...movieDetails,
-            providerDetails,
-          },
-        ]);
+        if (providerDetails.length > 0) {
+          setAllMoviesList((prevData) => [
+            ...prevData,
+            {
+              ...movieDetails,
+              providerDetails,
+            },
+          ]);
+        }
       } catch (error) {
         console.log('Error with movie ' + movie.title);
         console.log(error);
