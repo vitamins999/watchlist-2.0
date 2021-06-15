@@ -1,12 +1,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 
 import { useForm } from 'react-hook-form';
 
 const Header = () => {
-  const router = useRouter();
-
   const {
     register,
     handleSubmit,
@@ -37,7 +34,9 @@ const Header = () => {
           <select
             className='mr-2 py-2 pl-3 pr-8 form-select text-sm border-none rounded-md font-bodyMain shadow-inner focus:outline-none'
             required
-            {...register('region')}
+            {...register('region', {
+              required: true,
+            })}
           >
             <option value='' hidden>
               Select Region
@@ -56,10 +55,13 @@ const Header = () => {
             <option value='us'>US</option>
           </select>
           <input
-            type='text'
+            type='url'
             className='py-2 px-5 rounded-md w-132 font-bodyMain text-sm shadow-inner focus:outline-none'
             placeholder='e.g. https://icheckmovies.com/lists/imdbs+top+250/'
-            {...register('linkURL')}
+            {...register('linkURL', {
+              required: true,
+              maxLength: 100,
+            })}
             required
           />
         </div>
