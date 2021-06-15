@@ -117,10 +117,13 @@ const HomePage = () => {
                     <option value='us'>US</option>
                   </select>
                   <input
-                    type='text'
+                    type='url'
                     className='py-2 px-5 rounded-md w-144 font-bodyMain text-sm shadow-inner focus:outline-none'
                     placeholder='e.g. https://icheckmovies.com/lists/imdbs+top+250/'
-                    {...register('linkURL')}
+                    {...register('linkURL', {
+                      required: true,
+                      maxLength: 100,
+                    })}
                     required
                   />
                 </div>
