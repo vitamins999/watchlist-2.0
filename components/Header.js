@@ -16,7 +16,7 @@ const Header = () => {
 
   const onSubmit = ({ linkURL, region }) => {
     const listName = linkURL.split('.com/lists/')[1];
-    router.push(`/${region}/${listName}`);
+    window.location = `/${region}/${listName}`;
   };
 
   return (
