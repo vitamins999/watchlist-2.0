@@ -19,7 +19,11 @@ const MovieCard = ({ movie }) => {
           <div className='text-center flex flex-col items-center'>
             <h1 className='text-xl font-semibold'>{movie.title}</h1>
             <h2 className='text-sm italic text-gray-300'>{movie.year}</h2>
-            <div className='border-t border-gray-100 w-20 mt-5'></div>
+            <div
+              className={`${
+                movie.title.length > 40 ? 'hidden' : ''
+              } border-t border-gray-100 w-20 mt-5`}
+            ></div>
           </div>
 
           <div className='pt-10 text-center px-3'>
