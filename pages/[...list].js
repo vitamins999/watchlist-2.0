@@ -169,7 +169,7 @@ const ResultsPage = () => {
 
   return (
     <Layout title={title} showHeader showFooter>
-      <main className=' bg-gray-50 px-72 mb-32'>
+      <main className='bg-gray-50 px-72 mb-32'>
         <div className='px-8 flex items-center justify-between'>
           <div>
             <h1 className='text-gray-900 font-bodyMain text-3xl pt-20 font-semibold tracking-wide'>
