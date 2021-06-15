@@ -1,6 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/router';
 import { v4 as uuidv4 } from 'uuid';
+
+import { MovieListContext } from '../contexts/MovieListContext';
 
 import Layout from '../components/layout';
 import MovieCard from '../components/MovieCard';
@@ -9,76 +11,9 @@ import Loader from '../components/Loader';
 import { getMovieList, populateMovieList } from '../api/scraping';
 import { getMovieDetails, getProviderDetails } from '../api/streamingDetails';
 
-const testData = [
-  {
-    listNumber: 5,
-    id: '424',
-    title: "Schindler's List",
-    year: '1993',
-    imagePath: '/sF1U4EUQS8YHUYjNl3pMGNIQyr0.jpg',
-    imdbID: 'tt0108052',
-    providerDetails: [
-      {
-        providerName: 'Netflix',
-        providerLogoPath: '/9A1JSVmSxsyaBK4SUFsYVqbAYfW.jpg',
-      },
-    ],
-  },
-  {
-    listNumber: 10,
-    id: '550',
-    title: 'Fight Club',
-    year: '1999',
-    imagePath: '/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg',
-    imdbID: 'tt0137523',
-    providerDetails: [
-      {
-        providerName: 'Amazon Prime Video',
-        providerLogoPath: '/68MNrwlkpF7WnmNPXLah69CR5cb.jpg',
-      },
-    ],
-  },
-  {
-    listNumber: 12,
-    id: '27205',
-    title: 'Inception',
-    year: '2010',
-    imagePath: '/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg',
-    imdbID: 'tt1375666',
-    providerDetails: [
-      {
-        providerName: 'Amazon Prime Video',
-        providerLogoPath: '/68MNrwlkpF7WnmNPXLah69CR5cb.jpg',
-      },
-    ],
-  },
-  {
-    listNumber: 12,
-    id: '27205',
-    title: 'Inception',
-    year: '2010',
-    imagePath: '/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg',
-    imdbID: 'tt1375666',
-    providerDetails: [],
-  },
-  {
-    listNumber: 12,
-    id: '27205',
-    title: 'Here Is A Really Really Long Title: Episode VII',
-    year: '2010',
-    imagePath: '/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg',
-    imdbID: 'tt1375666',
-    providerDetails: [
-      {
-        providerName: 'Amazon Prime Video',
-        providerLogoPath: '/68MNrwlkpF7WnmNPXLah69CR5cb.jpg',
-      },
-    ],
-  },
-];
-
 const ResultsPage = () => {
-  const [allMoviesList, setAllMoviesList] = useState([]);
+  const { allMoviesList, dispatch } = useContext(MovieListContext);
+
   const [allMoviesListTitle, setAllMoviesListTitle] = useState('');
   const [listRegion, setListRegion] = useState('');
   const [loading, setLoading] = useState(true);
@@ -95,12 +30,17 @@ const ResultsPage = () => {
     const region = list[0].toUpperCase();
     setListRegion(region);
 
-    await listData.list.forEach(async (movie, index) => {
+    let allMoviesData = [];
+    let index = 0;
+
+    for (const movie of listData.list) {
       const movieDetails = await getMovieDetails(
         movie.title,
         movie.year.toString(),
         index
       );
+
+      index += 1;
 
       try {
         const providerDetails = await getProviderDetails(
@@ -108,18 +48,20 @@ const ResultsPage = () => {
           region
         );
         if (providerDetails.length > 0) {
-          setAllMoviesList((prevData) => [
-            ...prevData,
-            {
-              ...movieDetails,
-              providerDetails,
-            },
-          ]);
+          allMoviesData.push({
+            ...movieDetails,
+            providerDetails,
+          });
         }
       } catch (error) {
         console.log('Error with movie ' + movie.title);
         console.log(error);
       }
+    }
+
+    await dispatch({
+      type: 'ADD_MOVIES',
+      payload: allMoviesData,
     });
   };
 
@@ -147,7 +89,9 @@ const ResultsPage = () => {
     if (!router.isReady) {
       return;
     }
-    allMoviesList.length = 0;
+    dispatch({
+      type: 'RESET_MOVIE_LIST',
+    });
     getListData();
   }, [router.isReady]);
 
@@ -252,13 +196,8 @@ const ResultsPage = () => {
           <div className='w-full border-t bg-gray-800 px-8'></div>
         </div>
         <ul className='pb-5 grid grid-cols-3'>
-          {allMoviesList.filter((movie) => {
-            return movie.providerDetails.length > 0;
-          }).length > 0 ? (
+          {allMoviesList.length > 0 ? (
             allMoviesList
-              .filter((movie) => {
-                return movie.providerDetails.length > 0;
-              })
               .sort((a, b) => {
                 if (sortBy === 'number-asc') {
                   return a.listNumber - b.listNumber;
