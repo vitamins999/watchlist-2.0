@@ -36,7 +36,12 @@ const Footer = () => {
         target='_blank'
         className='flex justify-end'
       >
-        <Image src='/icons/github-logo-32.png' height={32} width={32} />
+        <Image
+          src='/icons/github-logo-32.webp'
+          height={32}
+          width={32}
+          alt='Github Logo'
+        />
       </a>
     </footer>
   );
