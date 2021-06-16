@@ -29,16 +29,16 @@ const HomePage = () => {
 
   return (
     <Layout title={title}>
-      <main className='relative h-screen w-full bg-watchlistPortrait lg:bg-watchlist iPadPro:bg-watchlistPortrait iPadProWidescreen:bg-watchlistPortrait iPad:bg-watchlistPortrait iPadWidescreen:bg-watchlistPortrait bg-center bg-cover bg-no-repeat flex flex-row justify-end'>
+      <main className='relative h-screen w-full bg-watchlistPortrait lg:bg-watchlist iPadPro:bg-watchlistPortrait iPadProWidescreen:bg-watchlistPortrait iPad:bg-watchlistPortrait iPadWidescreen:bg-watchlistPortrait bg-center bg-cover bg-no-repeat flex flex-row justify-center iPadWidescreen:justify-center iPadPro:justify-center iPadProWidescreen:justify-center lg:justify-end'>
         <div className='flex flex-col justify-center lg:items-end iPadProWidescreen:items-center xl:mr-16 2xl:mr-64 xs:-mt-0 -mt-28 iPadProWidescreen:mr-0 z-0'>
           <div className='flex flex-col justify-center items-center'>
             <h1 className='font-headingMain text-5xl lg:text-7xl text-red-700'>
               Watchlist
             </h1>
-            <h2 className='font-bodyMain text-sm lg:text-base text-gray-800 tracking-wider'>
-              What movies on your list can you watch right now?
+            <h2 className='font-bodyMain text-xs md:text-sm lg:text-base text-gray-800 tracking-tight lg:tracking-wider'>
+              What movies on your list can you watch?
             </h2>
-            <p className='max-w-lg mt-10 text-sm lg:px-0 px-5 lg:text-base font-bodyMain text-gray-900 text-center'>
+            <p className='max-w-lg mt-10 text-xs md:text-sm lg:px-0 px-5 lg:text-base font-bodyMain text-gray-900 text-center'>
               Welcome to Watchlist: a streaming movie search engine for finding
               out what movies on an{' '}
               <a
@@ -87,16 +87,16 @@ const HomePage = () => {
             </div>
             <div className='w-full h-screen absolute flex justify-center items-center'>
               <form
-                className={`bg-gray-800 py-20 px-64 rounded-md flex flex-col items-center`}
+                className={`bg-gray-800 py-20 lg:py-20 iPad:py-20 iPadWidescreen:py-20 iPadPro:py-20 iPadProWidescreen:py-20 lg:px-64 iPad:px-20 iPadWidescreen:px-20 iPadPro:px-20 rounded-md flex flex-col items-center`}
                 onSubmit={handleSubmit(onSubmit)}
               >
-                <p className='pb-12 max-w-xl text-center text-gray-100'>
+                <p className='pb-8 lg:pb-12 iPad:pb-12 iPadWidescreen:pb-12 iPadPro:pb-12 iPadProWidescreen:pb-12 lg:px-0 px-5 lg:max-w-xl xl:max-w-xl iPadWidescreen:max-w-xl iPadPro:max-w-xl iPad:max-w-xl iPadProWidescreen:max-w-xl text-xs lg:text-base iPad:text-sm iPadWidescreen:text-sm text-center text-gray-100'>
                   Finding out what movies are streaming is easy! Just enter the
                   full URL for the icheckmovies.com list in the box below.
                 </p>
-                <div className='flex'>
+                <div className='flex lg:flex-row iPad:flex-row flex-col items-center'>
                   <select
-                    className='mr-5 py-2 px-5 text-sm rounded-md font-bodyMain shadow-inner focus:outline-none'
+                    className='lg:mr-5 py-2 px-5 lg:mb-0 mb-5 iPad:mb-0 iPad:mr-5 lg:text-sm text-xs iPadWidescreen:text-xs rounded-md font-bodyMain shadow-inner focus:outline-none'
                     required
                     {...register('region')}
                   >
@@ -118,7 +118,7 @@ const HomePage = () => {
                   </select>
                   <input
                     type='url'
-                    className='py-2 px-5 rounded-md w-144 font-bodyMain text-sm shadow-inner focus:outline-none'
+                    className='py-2 px-5 rounded-md lg:w-144 w-72 iPad:w-108 font-bodyMain text-xs lg:text-sm iPadWidescreen:text-xs shadow-inner focus:outline-none'
                     placeholder='e.g. https://icheckmovies.com/lists/imdbs+top+250/'
                     {...register('linkURL', {
                       required: true,
