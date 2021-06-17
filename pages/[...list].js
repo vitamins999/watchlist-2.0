@@ -155,7 +155,7 @@ const ResultsPage = () => {
   if (loading) {
     return (
       <Layout title={title} showHeader showFooter>
-        <main className='h-screen bg-gray-50 px-72 mb-32'>
+        <main className='h-screen bg-gray-50 lg:px-72 mb-32'>
           <div className='px-8 py-72 flex flex-col items-center justify-center'>
             <Loader />
             <h1 className='font-bodyMain text-lg text-gray-800'>
@@ -169,9 +169,9 @@ const ResultsPage = () => {
 
   return (
     <Layout title={title} showHeader showFooter>
-      <main className='min-h-screen bg-gray-50 px-72 mb-32'>
-        <div className='px-8 flex items-center justify-between'>
-          <div>
+      <main className='min-h-screen bg-gray-50 2xl:px-72 lg:px-8 iPadProWidescreen:px-8 iPadWidescreen:px-8 iPadPro:px-8 mb-32'>
+        <div className='2xl:px-8 lg:px-3 flex lg:flex-row flex-col items-center justify-between'>
+          <div className='text-center lg:text-left'>
             <h1 className='text-gray-900 font-bodyMain text-3xl pt-20 font-semibold tracking-wide'>
               {allMoviesListTitle}
             </h1>
@@ -183,7 +183,7 @@ const ResultsPage = () => {
             <select
               onChange={(e) => setSortBy(e.target.value)}
               defaultValue='number-asc'
-              className='px-5 py-2 rounded-md shadow-inner font-bodyMain text-sm focus:outline-none'
+              className='px-5 py-2 rounded-md shadow-inner font-bodyMain text-xs lg:text-sm iPadWidescreen:text-xs iPadPro:text-xs focus:outline-none'
             >
               <option value='number-asc'>List Number ASC</option>
               <option value='number-desc'>List Number DESC</option>
@@ -192,10 +192,10 @@ const ResultsPage = () => {
             </select>
           </div>
         </div>
-        <div className='px-8'>
-          <div className='w-full border-t bg-gray-800 px-8'></div>
+        <div className='2xl:px-8 px-3 lg:mt-0 mt-5'>
+          <div className='w-full border-t bg-gray-800 2xl:px-8 px-5'></div>
         </div>
-        <ul className='pb-5 grid grid-cols-3'>
+        <ul className='pb-5 grid grid-cols-1 lg:grid-cols-3 iPad:grid-cols-2 iPadPro:grid-cols-2 iPadWidescreen:grid-cols-2'>
           {allMoviesList.length > 0 ? (
             allMoviesList
               .sort((a, b) => {
@@ -233,7 +233,7 @@ const ResultsPage = () => {
                 </li>
               ))
           ) : (
-            <div className='text-center col-span-full mt-20 text-xl font-bodyMain text-gray-800'>
+            <div className='text-center col-span-full mt-20 text-lg lg:text-xl font-bodyMain text-gray-800'>
               <h1>
                 Sorry! It appears that list has no movies available for
                 streaming in your selected region.
