@@ -17,9 +17,9 @@ const Header = () => {
   };
 
   return (
-    <header className='flex justify-between items-center w-full py-5 px-80 bg-gray-200'>
+    <header className='flex lg:flex-row iPad:flex-row flex-col justify-between items-center w-full py-5 iPad:px-10 iPadPro:px-16 iPadProWidescreen:px-16 2xl:px-80 lg:px-10 iPadWidescreen:px-16 bg-gray-200'>
       <Link href='/'>
-        <a className='flex'>
+        <a className='flex lg:mb-0 iPad:mb-0 mb-3'>
           <Image
             src='/icons/icon.webp'
             width={36}
@@ -37,7 +37,7 @@ const Header = () => {
       >
         <div className='flex'>
           <select
-            className='mr-2 py-2 pl-3 pr-8 form-select text-sm border-none rounded-md font-bodyMain shadow-inner focus:outline-none'
+            className='mr-2 py-2 pl-3 pr-8 form-select text-xs iPadWidescreen:text-xs iPadPro:text-xs lg:text-sm border-none rounded-md font-bodyMain shadow-inner focus:outline-none'
             required
             {...register('region', {
               required: true,
@@ -61,7 +61,7 @@ const Header = () => {
           </select>
           <input
             type='url'
-            className='py-2 px-5 rounded-md w-132 font-bodyMain text-sm shadow-inner focus:outline-none'
+            className='py-2 px-5 rounded-md lg:w-132 iPad:w-80 iPadWidescreen:w-96 iPadPro:w-96 font-bodyMain text-xs iPadWidescreen:text-xs iPadPro:text-xs lg:text-sm shadow-inner focus:outline-none'
             placeholder='e.g. https://icheckmovies.com/lists/imdbs+top+250/'
             {...register('linkURL', {
               required: true,
@@ -70,7 +70,7 @@ const Header = () => {
             required
           />
         </div>
-        <button className='-ml-8' type='submit'>
+        <button className='lg:-ml-8 iPad:-ml-8 ml-2' type='submit'>
           <svg
             className='w-6 h-6 hover:text-blue-700 transition duration-150'
             fill='none'
