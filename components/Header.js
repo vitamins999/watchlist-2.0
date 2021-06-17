@@ -13,7 +13,7 @@ const Header = () => {
 
   const onSubmit = ({ linkURL, region }) => {
     const listName = linkURL.split('.com/lists/')[1];
-    window.location = `/${region}/${listName}`;
+    window.location = `/search/${region}/${listName}`;
   };
 
   return (

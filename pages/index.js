@@ -18,7 +18,7 @@ const HomePage = () => {
 
   const onSubmit = ({ linkURL, region }) => {
     const listName = linkURL.split('.com/lists/')[1];
-    router.push(`/${region}/${listName}`);
+    router.push(`/search/${region}/${listName}`);
   };
 
   const handleModalOpen = () => {
