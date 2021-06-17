@@ -69,12 +69,6 @@ export const getProviderDetails = async (id, region) => {
         providerLogoPath: provider.logo_path,
       });
     }
-    if (provider.provider_id === 337) {
-      providerDetails.push({
-        providerName: 'Disney Plus',
-        providerLogoPath: provider.logo_path,
-      });
-    }
     if (provider.provider_id === 103) {
       providerDetails.push({
         providerName: 'All 4',
@@ -103,3 +97,41 @@ export const getProviderDetails = async (id, region) => {
 
   return providerDetails;
 };
+
+const getAllMoviesProviderData = async (listData, region) => {
+  let allMoviesData = [];
+  let index = 0;
+
+  for (const movie of listData.list) {
+    const movieDetails = await getMovieDetails(
+      movie.title,
+      movie.year.toString(),
+      index
+    );
+
+    index += 1;
+
+    try {
+      const providerDetails = await getProviderDetails(movieDetails.id, region);
+      if (providerDetails.length > 0) {
+        allMoviesData.push({
+          ...movieDetails,
+          providerDetails,
+        });
+      }
+    } catch (error) {
+      console.log('Error with movie ' + movie.title);
+      console.log(error);
+    }
+  }
+  return allMoviesData;
+};
+
+export default async function handler(req, res) {
+  const data = await getAllMoviesProviderData(
+    req.body.listData,
+    req.body.region
+  );
+
+  res.status(200).json(data);
+}

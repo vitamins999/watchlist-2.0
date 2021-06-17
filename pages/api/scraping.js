@@ -7,8 +7,7 @@ axios.defaults.httpsAgent = new https.Agent({ keepAlive: true });
 
 // Request webpage of icheckmovies list
 export const getMovieList = async (checklistURL) => {
-  const proxy = 'https://morning-dusk-29674.herokuapp.com/'; // Personal Cors-Anywhere proxy server
-  const html = await axios.get(proxy + checklistURL);
+  const html = await axios.get(checklistURL);
   return html;
 };
 
@@ -53,3 +52,10 @@ export const populateMovieList = (html) => {
     list: allMovies,
   };
 };
+
+export default async function handler(req, res) {
+  const html = await getMovieList(req.body.url);
+  const movieList = populateMovieList(html);
+
+  res.status(200).json(movieList);
+}

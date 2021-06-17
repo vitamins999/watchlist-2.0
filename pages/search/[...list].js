@@ -1,15 +1,13 @@
 import { useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/router';
 import { v4 as uuidv4 } from 'uuid';
+import axios from 'axios';
 
-import { MovieListContext } from '../contexts/MovieListContext';
+import { MovieListContext } from '../../contexts/MovieListContext';
 
-import Layout from '../components/layout';
-import MovieCard from '../components/MovieCard';
-import Loader from '../components/Loader';
-
-import { getMovieList, populateMovieList } from '../api/scraping';
-import { getMovieDetails, getProviderDetails } from '../api/streamingDetails';
+import Layout from '../../components/layout';
+import MovieCard from '../../components/MovieCard';
+import Loader from '../../components/Loader';
 
 const ResultsPage = () => {
   const { allMoviesList, dispatch } = useContext(MovieListContext);
@@ -24,48 +22,10 @@ const ResultsPage = () => {
 
   const { list } = router.query;
 
-  const getAllMoviesProviderData = async (listData) => {
-    setAllMoviesListTitle(listData.listTitle);
-
+  const getListData = async () => {
     const region = list[0].toUpperCase();
     setListRegion(region);
 
-    let allMoviesData = [];
-    let index = 0;
-
-    for (const movie of listData.list) {
-      const movieDetails = await getMovieDetails(
-        movie.title,
-        movie.year.toString(),
-        index
-      );
-
-      index += 1;
-
-      try {
-        const providerDetails = await getProviderDetails(
-          movieDetails.id,
-          region
-        );
-        if (providerDetails.length > 0) {
-          allMoviesData.push({
-            ...movieDetails,
-            providerDetails,
-          });
-        }
-      } catch (error) {
-        console.log('Error with movie ' + movie.title);
-        console.log(error);
-      }
-    }
-
-    await dispatch({
-      type: 'ADD_MOVIES',
-      payload: allMoviesData,
-    });
-  };
-
-  const getListData = async () => {
     let url = '';
 
     if (list.length > 2) {
@@ -75,12 +35,25 @@ const ResultsPage = () => {
     }
 
     try {
-      const html = await getMovieList(url);
-      const movieList = populateMovieList(html);
-      await getAllMoviesProviderData(movieList);
+      const { data: listData } = await axios.post('/api/scraping', {
+        url,
+      });
+
+      setAllMoviesListTitle(listData.listTitle);
+
+      const { data: allMoviesData } = await axios.post('/api/streaming', {
+        listData,
+        region,
+      });
+
+      await dispatch({
+        type: 'ADD_MOVIES',
+        payload: allMoviesData,
+      });
 
       setLoading(false);
     } catch (error) {
+      console.log(error);
       setError404(true);
     }
   };
