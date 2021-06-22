@@ -11,44 +11,6 @@ const config = {
   host: 'api.themoviedb.org',
 };
 
-export const getMovieDetails = async (movieTitle, year, number) => {
-  const formattedTitle = movieTitle
-    .toLowerCase()
-    .trim()
-    .split(' - ')
-    .join('+')
-    .split(' ')
-    .join('+')
-    .split(',')
-    .join('')
-    .split(':')
-    .join('')
-    .split('.')
-    .join('')
-    .split('.')
-    .join('')
-    .split('·')
-    .join('')
-    .split("'")
-    .join('')
-    .normalize('NFD') // Normalises accented characters
-    .replace(/[\u0300-\u036f]/g, ''); // for the search string
-
-  const searchUrl = `https://api.themoviedb.org/3/search/movie?query=${formattedTitle}&year=${year}`;
-
-  const { data } = await axios.get(searchUrl, config);
-
-  let movieData = {
-    listNumber: number + 1,
-    id: data.results[0].id.toString(),
-    title: data.results[0].title,
-    year,
-    imagePath: data.results[0].poster_path,
-  };
-
-  return movieData;
-};
-
 export const getProviderDetails = async (id, region) => {
   const providerUrl = `https://api.themoviedb.org/3/movie/${id}/watch/providers`;
 
@@ -98,40 +60,8 @@ export const getProviderDetails = async (id, region) => {
   return providerDetails;
 };
 
-const getAllMoviesProviderData = async (listData, region) => {
-  let allMoviesData = [];
-  let index = 0;
-
-  for (const movie of listData.list) {
-    const movieDetails = await getMovieDetails(
-      movie.title,
-      movie.year.toString(),
-      index
-    );
-
-    index += 1;
-
-    try {
-      const providerDetails = await getProviderDetails(movieDetails.id, region);
-      if (providerDetails.length > 0) {
-        allMoviesData.push({
-          ...movieDetails,
-          providerDetails,
-        });
-      }
-    } catch (error) {
-      console.log('Error with movie ' + movie.title);
-      console.log(error);
-    }
-  }
-  return allMoviesData;
-};
-
 export default async function handler(req, res) {
-  const data = await getAllMoviesProviderData(
-    req.body.listData,
-    req.body.region
-  );
+  const data = await getProviderDetails(req.body.id, req.body.region);
 
   res.status(200).json(data);
 }

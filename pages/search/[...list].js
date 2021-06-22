@@ -22,6 +22,39 @@ const ResultsPage = () => {
 
   const { list } = router.query;
 
+  const getAllMoviesProviderData = async (listData, region) => {
+    let allMoviesData = [];
+    let index = 0;
+
+    for (const movie of listData.list) {
+      const { data: movieDetails } = await axios.post('/api/moviedetails', {
+        title: movie.title,
+        year: movie.year.toString(),
+        index,
+      });
+
+      index += 1;
+
+      try {
+        const { data: providerDetails } = await axios.post('/api/streaming', {
+          id: movieDetails.id,
+          region,
+        });
+
+        if (providerDetails.length > 0) {
+          allMoviesData.push({
+            ...movieDetails,
+            providerDetails,
+          });
+        }
+      } catch (error) {
+        console.log('Error with movie ' + movie.title);
+        console.log(error);
+      }
+    }
+    return allMoviesData;
+  };
+
   const getListData = async () => {
     const region = list[0].toUpperCase();
     setListRegion(region);
@@ -41,10 +74,7 @@ const ResultsPage = () => {
 
       setAllMoviesListTitle(listData.listTitle);
 
-      const { data: allMoviesData } = await axios.post('/api/streaming', {
-        listData,
-        region,
-      });
+      const allMoviesData = await getAllMoviesProviderData(listData, region);
 
       await dispatch({
         type: 'ADD_MOVIES',
