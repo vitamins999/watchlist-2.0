@@ -6,7 +6,7 @@ axios.defaults.httpsAgent = new https.Agent({ keepAlive: true });
 
 const config = {
   headers: {
-    Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_TOKEN}`,
+    Authorization: `Bearer ${process.env.TMDB_TOKEN}`,
   },
   host: 'api.themoviedb.org',
 };
