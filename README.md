@@ -4,7 +4,7 @@ Hello there, and welcome to _Watchlist_: a serverless Next.js web app for findin
 
 ## Demo
 
-[Live Demo](http://watchlist-eta.vercel.app/)
+[Live Demo](https://watchlistmovies.vercel.app/)
 
 ## Why Does This Exist?
 
