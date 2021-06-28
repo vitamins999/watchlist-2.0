@@ -2,12 +2,12 @@ import { useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/router';
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
+import { Line } from 'rc-progress';
 
 import { MovieListContext } from '../../contexts/MovieListContext';
 
 import Layout from '../../components/layout';
 import MovieCard from '../../components/MovieCard';
-import Loader from '../../components/Loader';
 
 const ResultsPage = () => {
   const { allMoviesList, dispatch } = useContext(MovieListContext);
@@ -17,6 +17,7 @@ const ResultsPage = () => {
   const [loading, setLoading] = useState(true);
   const [error404, setError404] = useState(false);
   const [sortBy, setSortBy] = useState('number-asc');
+  const [progress, setProgress] = useState(0);
 
   const router = useRouter();
 
@@ -27,6 +28,12 @@ const ResultsPage = () => {
     let index = 0;
 
     for (const movie of listData.list) {
+      const progressPercentRounded = Math.floor(
+        (index / listData.list.length) * 100
+      );
+
+      setProgress(progressPercentRounded);
+
       const { data: movieDetails } = await axios.post('/api/moviedetails', {
         title: movie.title,
         altTitle: movie.altTitle,
@@ -163,9 +170,9 @@ const ResultsPage = () => {
       <Layout title={title} showHeader showFooter>
         <main className='h-screen bg-gray-50 lg:px-72 mb-32'>
           <div className='px-8 py-72 flex flex-col items-center justify-center'>
-            <Loader />
-            <h1 className='font-bodyMain text-lg text-gray-800'>
-              Getting movie info...
+            <Line percent={progress} strokeColor='#10B981' className='px-28' />
+            <h1 className='mt-5 font-bodyMain text-lg text-gray-800'>
+              Getting movie info... {progress}%
             </h1>
           </div>
         </main>
