@@ -29,27 +29,30 @@ const ResultsPage = () => {
     for (const movie of listData.list) {
       const { data: movieDetails } = await axios.post('/api/moviedetails', {
         title: movie.title,
+        altTitle: movie.altTitle,
         year: movie.year.toString(),
         index,
       });
 
       index += 1;
 
-      try {
-        const { data: providerDetails } = await axios.post('/api/streaming', {
-          id: movieDetails.id,
-          region,
-        });
-
-        if (providerDetails.length > 0) {
-          allMoviesData.push({
-            ...movieDetails,
-            providerDetails,
+      if (Object.keys(movieDetails).length > 0) {
+        try {
+          const { data: providerDetails } = await axios.post('/api/streaming', {
+            id: movieDetails.id,
+            region,
           });
+
+          if (providerDetails.length > 0) {
+            allMoviesData.push({
+              ...movieDetails,
+              providerDetails,
+            });
+          }
+        } catch (error) {
+          console.log('Error with movie ' + movie.title);
+          console.log(error);
         }
-      } catch (error) {
-        console.log('Error with movie ' + movie.title);
-        console.log(error);
       }
     }
     return allMoviesData;
