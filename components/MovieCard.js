@@ -10,15 +10,25 @@ const MovieCard = ({ movie }) => {
             src={`https://image.tmdb.org/t/p/w200${movie.imagePath}`}
             layout='fill'
             objectFit='contain'
+            alt='movie poster'
           />
         </div>
         <div className='grid grid-cols-1 grid-rows-2 lg:py-10 py-7 px-5 w-full'>
           <div className='text-center flex flex-col items-center'>
-            <h1 className='lg:text-xl text-lg font-semibold'>{movie.title}</h1>
-            <h2 className='lg:text-sm text-xs italic text-gray-300'>
+            <h1
+              data-testid='movie-title'
+              className='lg:text-xl text-lg font-semibold'
+            >
+              {movie.title}
+            </h1>
+            <h2
+              data-testid='movie-year'
+              className='lg:text-sm text-xs italic text-gray-300'
+            >
               {movie.year}
             </h2>
             <div
+              data-testid='divider'
               className={`${
                 movie.title.length > 40 ? 'hidden' : ''
               } border-t border-gray-100 w-20 mt-5`}
@@ -30,6 +40,7 @@ const MovieCard = ({ movie }) => {
             <div className='pt-3 flex'>
               {movie.providerDetails.map((provider, index) => (
                 <div
+                  data-testid='div-streaming-provider'
                   key={index}
                   className='relative mr-2 lg:w-10 lg:h-10 h-8 w-8'
                 >
@@ -38,6 +49,8 @@ const MovieCard = ({ movie }) => {
                     className='rounded-lg'
                     layout='fill'
                     objectFit='contain'
+                    alt={provider.providerName}
+                    data-testid='image-streaming-provider'
                   />
                 </div>
               ))}

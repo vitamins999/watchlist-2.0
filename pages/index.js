@@ -85,7 +85,10 @@ const HomePage = () => {
                 </svg>
               </button>
             </div>
-            <div className='w-full h-screen absolute flex justify-center items-center'>
+            <div
+              data-testid='modal'
+              className='w-full h-screen absolute flex justify-center items-center'
+            >
               <form
                 className={`bg-gray-800 py-20 lg:py-20 iPad:py-20 iPadWidescreen:py-20 iPadPro:py-20 iPadProWidescreen:py-20 lg:px-64 iPad:px-20 iPadWidescreen:px-20 iPadPro:px-20 rounded-md flex flex-col items-center`}
                 onSubmit={handleSubmit(onSubmit)}
