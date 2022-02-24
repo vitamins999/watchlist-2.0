@@ -2,6 +2,19 @@
 
 Hello there, and welcome to _Watchlist_: a serverless Next.js web app for finding out what movies on an https://www.icheckmovies.com list are available to stream right now on Netflix and Amazon Prime.
 
+## Table of Contents <!-- omit in toc -->
+
+- [Demo](#demo)
+- [Why Does This Exist?](#why-does-this-exist)
+- [How Does It Work?](#how-does-it-work)
+- [Technology Used](#technology-used)
+- [Current Regions Supported](#current-regions-supported)
+- [Run Locally](#run-locally)
+- [Environment Variables](#environment-variables)
+- [License](#license)
+- [Acknowledgements](#acknowledgements)
+- [Authors](#authors)
+
 ## Demo
 
 [Live Demo](https://watchlistmovies.vercel.app/)
